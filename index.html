@@ -2,126 +2,126 @@
 <html>
     <head>
         <title>SlothDMA</title>
-	    <style>
-		    * { margin: auto; box-sizing: border-box; font-family: Arial, Sans-Serif; text-align: center; color: rgb(255, 255, 255); }
+        <style>
+            * { margin: auto; box-sizing: border-box; font-family: Arial, Sans-Serif; text-align: center; color: rgb(255, 255, 255); }
             body { background: rgb(0, 0, 0); }
-			[id*="led-"] { background: rgb(255, 0, 0); position: relative; display: inline-block; width: 20px; height: 20px; margin: 5px; border-radius: 10px; box-shadow: 0px 0px 30px rgb(255, 0, 0); }
-			[id*="ledc-"] { background: rgb(127, 127, 127); position: relative; display: inline-block; width: 20px; height: 20px; margin: 5px; border-radius: 10px; box-shadow: 0px 0px 30px rgb(127, 127, 127); }
-			#sig { font-style: italic; }
-		</style>
-	    <script>
-		    var n;
-			var tMem;
-			var tDma;
-			var tDev;
-			var mem;
-			var dma;
-			var dev;
-			var memc;
-			var dmac;
-			var devc;
-	        window.onload = function()
-	        {
-			    n = 30;
-			    tMem = 10;
-			    tDma = 20;
-				tDev = 30;
-			    mem = document.getElementById("mem");
-			    dma = document.getElementById("dma");
-			    dev = document.getElementById("dev");
-				memc = document.getElementById("memc");
-			    dmac = document.getElementById("dmac");
-			    devc = document.getElementById("devc");
-			    for (var i = 0; i < n; ++i)
-				{
-				    mem.innerHTML += '<div id = "led-mem-' + i + '"></div>';
-					dma.innerHTML += '<div id = "led-dma-' + i + '"></div>';
-					dev.innerHTML += '<div id = "led-dev-' + i + '"></div>';
-					memc.innerHTML += '<div id = "ledc-mem-' + i + '"></div>';
-					dmac.innerHTML += '<div id = "ledc-dma-' + i + '"></div>';
-					devc.innerHTML += '<div id = "ledc-dev-' + i + '"></div>';
-				}
-	            oMem = setInterval(update_main_memory, 10);
-				oDma = setInterval(update_dma_cache, 10);
-				oDev = setInterval(update_device_cache, 10);
-	        }
-			
-			set_colour = function(element, colour)
-			{
-			    document.getElementById(element).style.background = colour;
-				document.getElementById(element).style.boxShadow = "0px 0px 30px " + colour;
-			}
-			
-			var sMem = 0;
-			var oMem = 0;
-			var cMem = 0;
-			update_main_memory = function()
-			{
-			    clearInterval(oMem);
-				
-				set_colour("led-mem-" + cMem, (sMem) ? "rgb(255, 0, 0)" : "rgb(0, 255, 0)");
-				set_colour("ledc-mem-" + cMem, "rgb(0, 255, 255)");
-				++cMem; if (cMem >= n)
-				{
-				    for (var i = 0; i < n; ++i) { set_colour("ledc-mem-" + i, "rgb(127, 127, 127)"); }
-				    sMem = (sMem) ? 0 : 1;
-				    cMem = 0;
-			    }
-				setTimeout(update_main_memory, tMem);
-			}
-			
-			var sDma = 0;
-			var oDma = 0;
-			var cDma = 0;
-			update_dma_cache = function()
-			{
-			    clearInterval(oDma);
-				sDma = (document.getElementById("led-mem-" + cDma).style.background == "rgb(255, 0, 0)");
-			    set_colour("led-dma-" + cDma, (sDma) ? "rgb(255, 0, 0)" : "rgb(0, 255, 0)");
-				set_colour("ledc-dma-" + cDma, "rgb(0, 255, 255)");
-				++cDma; if (cDma >= n)
-				{
-				    for (var i = 0; i < n; ++i) { set_colour("ledc-dma-" + i, "rgb(127, 127, 127)"); }
-				    cDma = 0;
-			    }
-				setTimeout(update_dma_cache, tDma);
-			}
-			
-			var sDev = 0;
-			var oDev = 0;
-			var cDev = 0;
-			update_device_cache = function()
-			{
-			    clearInterval(oDev);
-				sDev = (document.getElementById("led-dma-" + cDev).style.background == "rgb(255, 0, 0)");
-			    set_colour("led-dev-" + cDev, (sDev) ? "rgb(255, 0, 0)" : "rgb(0, 255, 0)");
-				set_colour("ledc-dev-" + cDev, "rgb(0, 255, 255)");
-				++cDev; if (cDev >= n)
-				{
-				    for (var i = 0; i < n; ++i) { set_colour("ledc-dev-" + i, "rgb(127, 127, 127)"); }
-				    cDev = 0;
-			    }
-				setTimeout(update_device_cache, tDev);
-			}
-	    </script>
+            [id*="led-"] { background: rgb(255, 0, 0); position: relative; display: inline-block; width: 20px; height: 20px; margin: 5px; border-radius: 10px; box-shadow: 0px 0px 30px rgb(255, 0, 0); }
+            [id*="ledc-"] { background: rgb(127, 127, 127); position: relative; display: inline-block; width: 20px; height: 20px; margin: 5px; border-radius: 10px; box-shadow: 0px 0px 30px rgb(127, 127, 127); }
+            #sig { font-style: italic; }
+        </style>
+        <script>
+            var n;
+            var tMem;
+            var tDma;
+            var tDev;
+            var mem;
+            var dma;
+            var dev;
+            var memc;
+            var dmac;
+            var devc;
+            window.onload = function()
+            {
+                n = 30;
+                tMem = 10;
+                tDma = 20;
+                tDev = 30;
+                mem = document.getElementById("mem");
+                dma = document.getElementById("dma");
+                dev = document.getElementById("dev");
+                memc = document.getElementById("memc");
+                dmac = document.getElementById("dmac");
+                devc = document.getElementById("devc");
+                for (var i = 0; i < n; ++i)
+                {
+                    mem.innerHTML += '<div id = "led-mem-' + i + '"></div>';
+                    dma.innerHTML += '<div id = "led-dma-' + i + '"></div>';
+                    dev.innerHTML += '<div id = "led-dev-' + i + '"></div>';
+                    memc.innerHTML += '<div id = "ledc-mem-' + i + '"></div>';
+                    dmac.innerHTML += '<div id = "ledc-dma-' + i + '"></div>';
+                    devc.innerHTML += '<div id = "ledc-dev-' + i + '"></div>';
+                }
+                oMem = setInterval(update_main_memory, 10);
+                oDma = setInterval(update_dma_cache, 10);
+                oDev = setInterval(update_device_cache, 10);
+            }
+            
+            set_colour = function(element, colour)
+            {
+                document.getElementById(element).style.background = colour;
+                document.getElementById(element).style.boxShadow = "0px 0px 30px " + colour;
+            }
+            
+            var sMem = 0;
+            var oMem = 0;
+            var cMem = 0;
+            update_main_memory = function()
+            {
+                clearInterval(oMem);
+                
+                set_colour("led-mem-" + cMem, (sMem) ? "rgb(255, 0, 0)" : "rgb(0, 255, 0)");
+                set_colour("ledc-mem-" + cMem, "rgb(0, 255, 255)");
+                ++cMem; if (cMem >= n)
+                {
+                    for (var i = 0; i < n; ++i) { set_colour("ledc-mem-" + i, "rgb(127, 127, 127)"); }
+                    sMem = (sMem) ? 0 : 1;
+                    cMem = 0;
+                }
+                setTimeout(update_main_memory, tMem);
+            }
+            
+            var sDma = 0;
+            var oDma = 0;
+            var cDma = 0;
+            update_dma_cache = function()
+            {
+                clearInterval(oDma);
+                sDma = (document.getElementById("led-mem-" + cDma).style.background == "rgb(255, 0, 0)"); 
+                set_colour("led-dma-" + cDma, (sDma) ? "rgb(255, 0, 0)" : "rgb(0, 255, 0)");
+                set_colour("ledc-dma-" + cDma, "rgb(0, 255, 255)");
+                ++cDma; if (cDma >= n)
+                {
+                    for (var i = 0; i < n; ++i) { set_colour("ledc-dma-" + i, "rgb(127, 127, 127)"); }
+                    cDma = 0;
+                }
+                setTimeout(update_dma_cache, tDma);
+            }
+            
+            var sDev = 0;
+            var oDev = 0;
+            var cDev = 0;
+            update_device_cache = function()
+            {
+                clearInterval(oDev);
+                sDev = (document.getElementById("led-dma-" + cDev).style.background == "rgb(255, 0, 0)");
+                set_colour("led-dev-" + cDev, (sDev) ? "rgb(255, 0, 0)" : "rgb(0, 255, 0)");
+                set_colour("ledc-dev-" + cDev, "rgb(0, 255, 255)");
+                ++cDev; if (cDev >= n)
+                {
+                    for (var i = 0; i < n; ++i) { set_colour("ledc-dev-" + i, "rgb(127, 127, 127)"); }
+                    cDev = 0;
+                }
+                setTimeout(update_device_cache, tDev);
+            }
+        </script>
     </head>
     <body>
-	    <br /><h1>SlothDMA</h1><br />
-	    <p>This visual example illustrates how much I hate DMA.</p>
-		<p>The first row shows Main Memory switching on and off rapidly.</p>
-		<p>The second row shows a typical slow DMA cache following Main Memory.</p>
-		<p>The third row is yet another cache buffer on the I/O device reading from DMA cache.</p>
-	    <br /><br />
-		<p>I will let the LED's do the talking.</p>
-		<br /><br />
-	    <div id = "mem"></div>
-		<div id = "dma"></div>
-		<div id = "dev"></div>
-		<br /><br />
-		<div id = "memc"></div>
-		<div id = "dmac"></div>
-		<div id = "devc"></div>
-		<br /><br />
-		<p id = "sig">Hand-Coded by Alastair Cota - 02/04/2021 at 6:15am</p>
+        <br /><h1>SlothDMA</h1><br />
+        <p>This visual example illustrates how much I hate DMA.</p>
+        <p>The first row shows Main Memory switching on and off rapidly.</p>
+        <p>The second row shows a typical slow DMA cache following Main Memory.</p>
+        <p>The third row is yet another cache buffer on the I/O device reading from DMA cache.</p>
+        <br /><br />
+        <p>I will let the LED's do the talking.</p>
+        <br /><br />
+        <div id = "mem"></div>
+        <div id = "dma"></div>
+        <div id = "dev"></div>
+        <br /><br />
+        <div id = "memc"></div>
+        <div id = "dmac"></div>
+        <div id = "devc"></div>
+        <br /><br />
+        <p id = "sig">Hand-Coded by Alastair Cota - 02/04/2021 at 6:15am</p>
     </body>
 </html>
